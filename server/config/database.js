@@ -5,16 +5,19 @@ dotenv.config();
 const obj = {
     host: process.env.DB_HOST,
     dialect: process.env.dialect,
+    logging : false
 }
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD,obj)
 
 const db = {sequelize: sequelize }
-// console.log(db >">>>>>>>")
+
 
 // all modle call 
 db.Registration = require('../models/Registration')(sequelize)
 db.User = require('../models/user')(sequelize)
+db.Product = require('../models/product')(sequelize)
+db.admin = require('../models/admin')(sequelize)
 
 
 

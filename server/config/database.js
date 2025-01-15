@@ -14,9 +14,7 @@ const db = {sequelize: sequelize }
 
 
 // all modle call 
-db.Registration = require('../models/Registration')(sequelize)
-db.User = require('../models/user')(sequelize)
-db.Product = require('../models/product')(sequelize)
+db.medicines = require('../models/medicines')(sequelize)
 db.admin = require('../models/admin')(sequelize)
 
 

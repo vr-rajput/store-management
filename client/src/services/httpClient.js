@@ -1,0 +1,10 @@
+import axios from "axios";
+
+const httpClient = axios.create({
+    baseURL: "https://sq6fj1n9-3000.inc1.devtunnels.ms", // Replace with your backend URL
+    headers: {
+        "Content-Type": "application/json",
+    },
+});
+
+export default httpClient;

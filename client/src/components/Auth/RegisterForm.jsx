@@ -1,10 +1,11 @@
 import { useForm } from "../../hooks/useAuth";
 import { registerUser } from "../../services/authService";
 import "../../styles/auth.css";
+import { keyWord } from "../../utils/keyword";
 import Style from "./Register.module.css";
 
 const RegisterForm = () => {
-  const { values, handleChange,handleSubmit } = useForm( {
+  const { values, handleChange,handleSubmit, passwordMismatch } = useForm( {
     storeName: "",
     userName: "",
     email: "",
@@ -13,7 +14,8 @@ const RegisterForm = () => {
     password: "",
     confirm_password: ""
   },
-  registerUser
+  registerUser,
+  keyWord?.actionType?.register
 );
   return (
     <div className={`${Style.Register} vh-100 vw-100`}>
@@ -98,7 +100,10 @@ const RegisterForm = () => {
             onChange={handleChange}
             required
             placeholder="confirm-password"
-          />
+          /> 
+          { passwordMismatch && (
+          <span style={{ color: "red" }}>Confirm password does not match</span>
+        )}
         </div>
         <button type="submit" className="btn btn-primary w-100">
           Sign-up

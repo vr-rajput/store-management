@@ -1,26 +1,36 @@
+import { useForm } from "../../hooks/useAuth";
+import { loginUser } from "../../services/authService";
 import "../../styles/auth.css";
+import { keyWord } from "../../utils/keyword";
 import Style from "./Register.module.css"
 
-function LoginForm( { values, onChange, onSubmit } ) {
+function LoginForm( ) {
+    const { values, handleChange,handleSubmit } = useForm( {
+        storeName: "", 
+        email: "", 
+        password: "", 
+      },
+      loginUser,
+      keyWord?.actionType?.login
+    );
   return (
       <div className={ `${Style.Register} vh-100 vw-100`}   >
                 <form
-                    onSubmit={onSubmit}
+                    onSubmit={handleSubmit}
                     className="bg-light p-4 rounded shadow-sm col-md-6"
                 >
                     <h2 className="text-center mb-4">Login </h2>
-                    <a href='/register'>Don't have an account? Register here</a>
+                    <a href='/register'>Dont have an account? Register here</a>
                     <div className="mb-3">
                         {/* <label htmlFor="name" className="form-label">
                             Name
                         </label> */}
                         <input
-                            type="text"
-                            id="store_name"
-                            name="store_name"
+                            type="text" 
+                            name="storeName"
                             className="form-control"
-                            value={values}
-                            onChange={onChange}
+                            value={values?.storeName}
+                            onChange={handleChange}
                             required
                             placeholder='store name'
                         />
@@ -34,8 +44,8 @@ function LoginForm( { values, onChange, onSubmit } ) {
                             id="email"
                             name="email"
                             className="form-control"
-                            value={values}
-                            onChange={onChange}
+                            value={values?.email}
+                            onChange={handleChange}
                             required
                             placeholder="E-mail"
                         />
@@ -49,8 +59,8 @@ function LoginForm( { values, onChange, onSubmit } ) {
                             id="password"
                             name="password"
                             className="form-control"
-                            value={values}
-                            onChange={onChange}
+                            value={values?.password}
+                            onChange={handleChange}
                             required
                             placeholder='password'
                         />

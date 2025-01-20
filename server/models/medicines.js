@@ -5,7 +5,7 @@ module.exports = (sequelize) => {
         title: {
             type: DataTypes.STRING
         },
-        type:{
+        type: {
             type: DataTypes.STRING
         },
         inventory: {
@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
             type: DataTypes.FLOAT
         }
     }
-        
-)
+
+    )
 }
 

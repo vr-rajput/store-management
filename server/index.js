@@ -1,22 +1,23 @@
+require('dotenv').config();
 const express = require('express');
-const dotenv = require('dotenv').config();
+const config = require('./config/index')
+const userRouter = require('./routes/user-Router');
 const db = require('./config/database');
-const userrouter = require('./routes/user');
-const getAllMedicines = require('./routes/medicine-router');
+// const getAllMedicines = require('./routes/medicine-router');
 
 
 const app = express();
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-
-app.use('/user', userrouter);
-app.use('/getAllMedicines', getAllMedicines)
-
-
 db.sequelize.sync({ alter: true });
 
+app.use('/mgt/admin', userRouter);
+// app.use('/getAllMedicines', getAllMedicines)
 
-app.listen(process.env.PORT || 4000, () => {
+
+
+
+app.listen(config?.port, () => {
     console.log(`Back-end is running`);
 })

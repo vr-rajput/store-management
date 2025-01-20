@@ -1,16 +1,17 @@
 const Sequelize = require('sequelize');
 const dotenv = require('dotenv');
+const config = require('../config/index')
 dotenv.config();
 
 const obj = {
-    host: process.env.DB_HOST,
-    dialect: process.env.dialect,
-    logging : false
+    host: config?.db_host,
+    dialect: config?.dialect,
+    logging: false
 }
 
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD,obj)
+const sequelize = new Sequelize(config?.db_name, config?.db_user, config?.db_password, obj)
 
-const db = {sequelize: sequelize }
+const db = { sequelize: sequelize }
 
 
 // all modle call 

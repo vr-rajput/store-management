@@ -1,0 +1,57 @@
+  .dashboard-page {
+    padding: 20px;
+  }
+  
+  .metrics-container {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 30px;
+    /* justify-content: space-around; */
+    justify-content: center;
+  }
+  
+  .metric-card {
+    padding: 2rem;  
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width:350px;
+    text-align: center;
+  }
+  
+  .metric-icon {
+    font-size: 30px;
+    margin-bottom: 10px;
+  }
+  
+  .data-table-container {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f4f4f4;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  

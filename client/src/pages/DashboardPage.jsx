@@ -1,6 +1,15 @@
- function DashboardPage() {
+import Metrics from "../components/Dashboard/Metrics"
+
+const DashboardPage = () => {
   return (
-    <div>DashboardPage</div>
+    <div className='dashboard-page'>
+      <div className='metrics-section'>
+        <Metrics/>
+      </div>
+      <div className='table-section'>
+        tables section
+      </div>
+    </div>
   )
 }
 

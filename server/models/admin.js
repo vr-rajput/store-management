@@ -1,9 +1,10 @@
-const { Sequelize, DataTypes } = require("sequelize")
+const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-    return sequelize.define('admin', {
+    const Admin = sequelize.define('admin', {
         storeName: {
             type: DataTypes.STRING,
+            unique: true,
         },
         userName: {
             type: DataTypes.STRING
@@ -23,4 +24,5 @@ module.exports = (sequelize) => {
             allowNull: true
         }
     })
+    return Admin;
 }

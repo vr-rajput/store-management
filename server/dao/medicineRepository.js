@@ -2,9 +2,9 @@ const { where } = require('sequelize');
 const db = require('../config/database');
 
 //get all Medicine to database .
-const getAllMedicine = async () => {
+const getAllMedicine = async (storeName) => {
     try {
-        const allMedicin = await db.medicines.findAll();
+        const allMedicin = await db.medicines.findAll({ where: { storeName: storeName } });
         return allMedicin;
     } catch (error) {
         console.log('data not featch to database', error.message)
@@ -24,13 +24,13 @@ const createMedicine = async (createData) => {
 }
 
 //update medicine
-const updateMedicine = async (updateDatafields,id) => {
+const updateMedicine = async (updateDatafields, id) => {
     try {
         // console.log("id ",id , "updta",updateDatafields)
-       const upDate = await db.medicines.update(updateDatafields,{
-        where:id
-       });
-    //    console.log(upDate)
+        const upDate = await db.medicines.update(updateDatafields, {
+            where: id
+        });
+        //    console.log(upDate)
     } catch (error) {
         console.log('Error not update fields ', error.message);
         throw error;
@@ -38,9 +38,9 @@ const updateMedicine = async (updateDatafields,id) => {
 }
 
 
-const removeData = async (id)=>{
+const removeData = async (id) => {
     try {
-     const deleteDataRow = await db.medicines.destroy({where:id})
+        const deleteDataRow = await db.medicines.destroy({ where: id })
     } catch (error) {
         console.log("Error", error.message);
         throw error;
@@ -48,9 +48,9 @@ const removeData = async (id)=>{
 }
 
 
-module.exports = { 
-        getAllMedicine, 
-        createMedicine,
-        updateMedicine,
-        removeData
-    }
+module.exports = {
+    getAllMedicine,
+    createMedicine,
+    updateMedicine,
+    removeData
+}

@@ -3,7 +3,8 @@ const express = require('express');
 const config = require('./config/index')
 const userRouter = require('./routes/user-Router');
 const db = require('./config/database');
-// const getAllMedicines = require('./routes/medicine-router');
+const medicineController = require('./controllers/medicine-controller');
+const medicineRouter = require('./routes/medicine-router');
 
 
 const app = express();
@@ -13,7 +14,7 @@ app.use(express.json());
 db.sequelize.sync({ alter: true });
 
 app.use('/mgt/admin', userRouter);
-// app.use('/getAllMedicines', getAllMedicines)
+app.use('/mgt/medicine', medicineRouter)
 
 
 

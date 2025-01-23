@@ -1,4 +1,5 @@
 import Metrics from "../components/Dashboard/Metrics"
+import BasicTable from "../components/DataTable"
 
 const DashboardPage = () => {
   return (
@@ -7,7 +8,7 @@ const DashboardPage = () => {
         <Metrics/>
       </div>
       <div className='table-section'>
-        tables section
+        <BasicTable/>
       </div>
     </div>
   )

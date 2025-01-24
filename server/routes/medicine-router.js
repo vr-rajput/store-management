@@ -1,11 +1,14 @@
 const express = require('express');
-const medicineController = require('../controller/medicine-controller')
-const router =  express.Router();
+const medicineController = require('../controllers/medicine-controller');
+const medicineRouter = express.Router();
 
-// all routers 
-router.get('/',  medicineController.getMedicine)
-router.post('/', medicineController.medicineCreate)
-router.put('/:id', medicineController.updateData)
-router.delete('/:id', medicineController.deleteData)
- 
-module.exports = router;      
+
+//create 
+medicineRouter.route('/').post(medicineController.medicineCreate);
+//get
+medicineRouter.route('/').get(medicineController.getMedicine);
+//getAllMedicinePaginated
+medicineRouter.route('/all').get(medicineController.getAllMedicinePaginated);
+
+module.exports = medicineRouter;
+

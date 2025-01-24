@@ -1,11 +1,22 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes, ForeignKeyConstraintError } = require('sequelize');
+const AdminModel = require('./admin');
+
 
 module.exports = (sequelize) => {
-    return sequelize.define('medicine', {
+    const Admin = AdminModel(sequelize);
+    const medicine = sequelize.define('medicine', {
+        storeName: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            references: {
+                module: Admin,
+                key: 'storeName'
+            }
+        },
         title: {
             type: DataTypes.STRING
         },
-        type:{
+        type: {
             type: DataTypes.STRING
         },
         inventory: {
@@ -14,8 +25,12 @@ module.exports = (sequelize) => {
         price: {
             type: DataTypes.FLOAT
         }
-    }
-        
-)
+
+
+    })
+
+    Admin.hasMany(medicine, { foreignKey: 'storeName', as: 'medicines' });
+    medicine.belongsTo(Admin, { foreignKey: 'storeName', as: 'admin' });
+    return medicine;
 }
 

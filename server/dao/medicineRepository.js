@@ -12,6 +12,16 @@ const getAllMedicine = async (storeName) => {
     }
 }
 
+// get paginated Medicine 
+const getPaginatedMedicine = async (limit, size) => {
+    try {
+        return await db.medicines.findAndCountAll(limit, size)
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
 // create medicine 
 const createMedicine = async (createData) => {
     try {
@@ -52,5 +62,6 @@ module.exports = {
     getAllMedicine,
     createMedicine,
     updateMedicine,
-    removeData
+    removeData,
+    getPaginatedMedicine
 }

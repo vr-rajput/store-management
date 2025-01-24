@@ -12,6 +12,31 @@ const getMedicine = async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+const getAllMedicinePaginated = async (req, res) => {
+    try {
+        const { page, size } = req.query;
+        const limit = parseInt(size, 10);
+        const offset = (parseInt(page, 10) - 1) * limit;
+
+        // fetch paginated data 
+        const data = await medicineRepository.getPaginatedMedicine({ limit, offset });
+        console.log(data.count)
+        console.log(data.rows)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 const medicineCreate = async (req, res) => {
     try {
@@ -24,6 +49,7 @@ const medicineCreate = async (req, res) => {
             price,
             storeName
         }
+        console.log(createData)
         const newMedicine = await medicineRepository.createMedicine(createData);
         return res.status(201).json(newMedicine)
     } catch (error) {
@@ -62,5 +88,6 @@ module.exports = {
     getMedicine,
     medicineCreate,
     updateData,
-    deleteData
+    deleteData,
+    getAllMedicinePaginated
 };

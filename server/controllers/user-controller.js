@@ -5,6 +5,7 @@ const saltRounds = 10;
 
 const userCreate = async (req, res) => {
   try {
+    console.log("admin")
     const { storeName, userName, email, password, address, number } = req.body;
     const user = await userRepository.getBuyEmail({ storeName, email });
     if (user) {
@@ -22,7 +23,7 @@ const userCreate = async (req, res) => {
     await userRepository.createUser(userInfo)
     return res.status(201).json({ message: keyword?.auth?.register })
   } catch (error) {
-    console.log('Error', error.message)
+    console.log('Error', error)
     return res.status(401).json({ message: keyword?.error })
   }
 }

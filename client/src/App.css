@@ -1,42 +1,41 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+body {
+  background: #ebe9e9;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+button.rounded-circle {
+  color: black;
+  min-height: 40px !important;
+  width: 40px !important;
+  height: 40 !important;
+  background: #f0f5ff;
+  color: #292929;
+  border: none;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button.rounded-circle svg {
+  color: #292929;
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.searchBox {
+  width: 300px;
+  height: 40px;
+  background: #f0f5ff;
+  border: none;
+  border-radius: 6px;
 }
 
-.card {
-  padding: 2em;
+.searchBox input {
+  background: transparent;
+  border: 0px;
+  outline: none;
+  font-size: 15px;
+  color: #292929;
+  padding-left: 5px;
 }
 
-.read-the-docs {
-  color: #888;
+.searchBox input::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.4);
 }

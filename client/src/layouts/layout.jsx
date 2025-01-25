@@ -16,7 +16,7 @@ const Layout = () => {
       case "/dashboard":
         return "Dashboard";
       case "/product":
-        return "Product Management";
+        return "Product";
       case "/sales":
         return "Sales History";
       default:

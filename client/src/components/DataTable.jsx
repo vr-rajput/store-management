@@ -48,7 +48,7 @@ export default function CustomizedTables() {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100vh',
+        // height: '100vh',
         width: '100%',
         padding: '2',
         bgcolor: '#f5f5f5',
@@ -62,18 +62,18 @@ export default function CustomizedTables() {
                 overflowX: 'auto' 
               }}
       >
-        <Typography variant="h4" align="center" gutterBottom>
-          Product Nutrition Table
+        <Typography variant="h5" align="center" gutterBottom>
+          Recent Orders
         </Typography>
         <TableContainer>
           <Table sx={{ width: '100%' }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-                <StyledTableCell align="right">Calories</StyledTableCell>
-                <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-                <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+                <StyledTableCell>Customer</StyledTableCell>
+                <StyledTableCell align="right">Order No</StyledTableCell>
+                <StyledTableCell align="right">Item</StyledTableCell>
+                <StyledTableCell align="right">Total</StyledTableCell>
+                <StyledTableCell align="right">Date</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -1,7 +1,7 @@
-    function ProductPage() {
-      return (
-        <div>ProductPage</div>
-      )
-    }
-    
-    export default ProductPage
+import Product from "../components/Product/Product"
+
+const ProductPage = () => {
+  return <Product/>
+}
+
+export default ProductPage

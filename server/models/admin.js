@@ -4,7 +4,7 @@ module.exports = (sequelize) => {
     const Admin = sequelize.define('admin', {
         storeName: {
             type: DataTypes.STRING,
-            unique: false,
+            unique: true,
         },
         userName: {
             type: DataTypes.STRING

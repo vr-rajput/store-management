@@ -4,9 +4,9 @@ const medicineRepository = require('../dao/medicineRepository');
 
 const getMedicine = async (req, res) => {
     try {
-        console.log("get")
         const getMedicine = await medicineRepository.getAllMedicine(req.query.storeName);
-        return res.status(200).json(getMedicine);
+        console.log(getMedicine)
+        return res.status(200).json({ msg: "successfully get data ", getMedicine });
     } catch (error) {
         console.error('Error fetching medicines:', error);
         return res.status(500).json({ message: 'Internal Server Error' });

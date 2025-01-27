@@ -1,14 +1,25 @@
+const jwt = require('jsonwebtoken');
 const userRepository = require('../dao/user-Repository');
+const { successResponse, errorResponse } = require('../utils/responseHandler')
 const { keyword } = require('../utils/keyword');
 const bcrypt = require('bcrypt');
+const config = require('../config/index')
+const logger = require('../utils/logger')
+const CustomError = require('../exceptions/duplicateError');
 const saltRounds = 10;
 
+// create User
 const userCreate = async (req, res) => {
   try {
     const { storeName, userName, email, password, address, number } = req.body;
+
+    // Validate input fields
+    if (!email || !storeName || !password) {
+      throw new CustomError(keyword?.auth.fields, 409)
+    }
     const user = await userRepository.getBuyEmail({ storeName, email });
     if (user) {
-      return res.status(200).json({ message: keyword?.auth?.allready })
+      throw new CustomError(keyword?.auth?.allready)
     }
     const userPassword = await bcrypt.hash(password, saltRounds);
     const userInfo = {
@@ -19,32 +30,61 @@ const userCreate = async (req, res) => {
       address,
       number
     }
-    await userRepository.createUser(userInfo)
-    return res.status(201).json({ message: keyword?.auth?.register })
+    await userRepository.createUser(userInfo);
+    const token = jwt.sign({ storeName: storeName, email: email }, config.privetKey, { expiresIn: '1h' })
+    return successResponse(res, keyword?.auth?.register, 201, { token })
   } catch (error) {
-    console.log('Error', error.message)
-    return res.status(401).json({ message: keyword?.error })
+    logger.error(`Error creating user: ${error.message}`);
+    return errorResponse(res, error.message || keyword?.error, error.statusCode || 401)
   }
 }
 
+// Login User
 const loginUser = async (req, res) => {
   try {
     const { email, password, storeName } = req.body;
-    console.log(email, password, storeName)
+    if (!email || !password || !storeName) {
+      throw new CustomError(keyword?.auth.fields, 409);
+    }
     const user = await userRepository.getByStore(storeName, email);
-    console.log(user?.dataValues)
     if (!user?.dataValues) {
-      return res.status(401).json({ message: keyword?.auth?.invalidCred })
+      throw new CustomError(keyword?.auth?.invalidCred)
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: keyword?.auth?.isverify })
+      throw new CustomError(keyword?.auth?.isverify)
     }
-    return res.status(200).json({ message: keyword?.auth?.login })
+    // Generete token
+    const token = jwt.sign(
+      { storeName: user.storeName, email: user.email },
+      config.privetKey,
+      { expiresIn: '1h' }
+    );
+
+    return successResponse(res, keyword?.auth?.login, 200, { token })
   } catch (error) {
-    console.log(error)
-    return res.status(401).json({ message: keyword?.error })
+    logger.error(`Error creating user: ${error.message}`);
+    return errorResponse(res, error.message || keyword?.error, error.statusCode || 401)
   }
 }
 
-module.exports = { userCreate, loginUser };
+//Get User Profile
+const getAllUser = async (req, res) => {
+  try {
+    const getuser = await userRepository.getUser();
+    res.status(200).json({ meg: "ok ", getuser })
+  } catch (error) {
+    res.status(200).json({ error: "server Error" })
+  }
+}
+
+// token jwt.verify
+const getUserProfile = async (req, res) => {
+  try {
+    const profile = req.user;
+    res.status(200).json(profile);
+  } catch (error) {
+    return errorResponse(res, error.message || keyword?.error, error.statusCode || 401)
+  }
+}
+module.exports = { userCreate, loginUser, getAllUser, getUserProfile };

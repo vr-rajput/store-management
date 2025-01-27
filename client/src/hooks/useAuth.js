@@ -27,11 +27,12 @@ export const useForm = (initialState, authApi, actionType) => {
                 }
             }
             //api call
-            const response = await authApi(values); 
+            const response = await authApi(values);
             if (response?.status === 201 && actionType === keyWord?.actionType?.register) {
                 toast.success(response?.data?.message);
             } else if (response?.status === 200 && actionType === keyWord?.actionType?.login) {
                 toast.success(response?.data?.message);
+
             } else {
                 toast.error(keyWord?.generalErrMsg);
             }

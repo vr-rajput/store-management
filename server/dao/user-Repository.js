@@ -1,6 +1,16 @@
 const { where, Op } = require('sequelize');
 const db = require('../config/database');
 
+
+//GetUser
+const getUser = async () => {
+  try {
+    return await db.admin.findAll();
+  } catch (error) {
+    throw error
+  }
+}
+//create user 
 const createUser = async (userInfo) => {
   try {
     return await db.admin.create(userInfo)
@@ -34,5 +44,5 @@ const getByStore = async (storeName, email) => {
     }
   })
 }
-module.exports = { createUser, getBuyEmail, getByStore };
+module.exports = { createUser, getBuyEmail, getByStore, getUser };
 

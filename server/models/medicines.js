@@ -24,6 +24,12 @@ module.exports = (sequelize) => {
         },
         price: {
             type: DataTypes.FLOAT
+        },
+        mfr: {
+            type: DataTypes.DATE
+        },
+        exp: {
+            type: DataTypes.DATE
         }
 
 

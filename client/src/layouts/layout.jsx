@@ -17,8 +17,8 @@ const Layout = () => {
         return "Dashboard";
       case "/product":
         return "Product";
-      case "/sales":
-        return "Sales History";
+      case "/orders":
+        return "Orders";
       default:
         return "Welcome";
     }
@@ -37,7 +37,7 @@ const Layout = () => {
             <Link to="/product">Product</Link>
           </li>
           <li>
-            <Link to="/sales">Sales history</Link>
+            <Link to="/orders">Orders</Link>
           </li>
           <li>
             <button onClick={handleLogout}>Logout</button>

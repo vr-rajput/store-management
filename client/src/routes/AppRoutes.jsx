@@ -5,6 +5,7 @@ import Dashboard from "../pages/DashboardPage";
 import ProductPage from "../pages/ProductPage";
 import SalesPage from "../pages/SalesPage";
 import Layout from "../layouts/layout";
+import OrderPage from "../pages/OrderPage";
 
 const AppRoutes = () => {
     return (
@@ -16,7 +17,7 @@ const AppRoutes = () => {
                 <Route path="/" element = { <Layout/> }>
                     <Route path="dashboard" element={<Dashboard/>}/>
                     <Route path="product" element={<ProductPage/>}/>
-                    <Route path="sales" element={<SalesPage/>}/>
+                    <Route path="orders" element={<OrderPage/>}/>
                 </Route>
                 {/* Add other routes here */}
             </Routes>

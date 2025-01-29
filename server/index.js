@@ -3,8 +3,9 @@ const verifyToken = require('./middleware/authMiddleware')
 const express = require('express');
 const config = require('./config/index')
 const userRouter = require('./routes/user-Router');
-const db = require('./config/database');
 const medicineRouter = require('./routes/medicine-router');
+const orderOrder = require('./routes/order-router')
+const db = require('./config/database');
 const cors = require('cors')
 
 
@@ -19,6 +20,8 @@ db.sequelize.sync({ alter: true });
 // router all
 app.use('/mgt/admin', userRouter);
 app.use('/mgt/medicine', medicineRouter)
+app.use('/mgt/order', orderOrder)
+
 
 // app listen 
 app.listen(config?.port, () => {

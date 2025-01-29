@@ -12,44 +12,35 @@ const getMedicine = async (req, res) => {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
+// Costum paginetion
 const getAllMedicinePaginated = async (req, res) => {
     try {
-        const { page, size } = req.query;
+        const { searchTerm, page, size } = req.query;
         const limit = parseInt(size, 10);
         const offset = (parseInt(page, 10) - 1) * limit;
 
         // fetch paginated data 
-        const data = await medicineRepository.getPaginatedMedicine({ limit, offset });
-        console.log(data.count)
-        console.log(data.rows)
+        const data = await medicineRepository.getPaginatedMedicine(searchTerm, limit, offset);
+        res.status(201).json({ data })
+        console.log(data)
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 const medicineCreate = async (req, res) => {
     try {
         console.log("vcreeate")
-        const { title, type, inventory, price, storeName } = req.body;
+        const { title, type, inventory, price, storeName, itemCode } = req.body;
         const createData = {
             title,
             type,
             inventory,
             price,
-            storeName
+            storeName,
+            itemCode,
         }
-        console.log(createData)
         const newMedicine = await medicineRepository.createMedicine(createData);
         return res.status(201).json(newMedicine)
     } catch (error) {
@@ -82,6 +73,10 @@ const deleteData = async (req, res) => {
         res.status(400).json({ msg: "cannot remeve data to database" })
     }
 }
+
+
+
+
 
 
 module.exports = {

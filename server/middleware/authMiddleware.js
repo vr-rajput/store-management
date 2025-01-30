@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
   try {
 
     const authHeader = req.headers?.authorization;
-    if (req.url.includes('/mgt/admin/')) {
+    if (req.url.includes('/mgt/admin/register') || req.url.includes('/mgt/admin/login')) {
       console.log("admin router accessed !")
       next();
     } else {

@@ -17,11 +17,11 @@ const getMedicine = async (req, res) => {
 const getAllMedicinePaginated = async (req, res) => {
     try {
         const { searchTerm, page, size } = req.query;
-        const limit = parseInt(size, 10);
-        const offset = (parseInt(page, 10) - 1) * limit;
+        const limit = parseInt(size, 10); // calculate the items of data  5
+        const offset = (parseInt(page, 10) - 1) * limit; // calculate the page
 
         // fetch paginated data 
-        const data = await medicineRepository.getPaginatedMedicine(searchTerm, limit, offset);
+        const data = await medicineRepository.getPaginatedMedicine(searchTerm, limit, offset, page);
         res.status(201).json({ data })
         console.log(data)
     } catch (error) {
@@ -32,16 +32,18 @@ const getAllMedicinePaginated = async (req, res) => {
 const medicineCreate = async (req, res) => {
     try {
         console.log("vcreeate")
-        const { title, type, inventory, price, storeName, itemCode } = req.body;
-        const createData = {
-            title,
-            type,
-            inventory,
-            price,
-            storeName,
-            itemCode,
-        }
-        const newMedicine = await medicineRepository.createMedicine(createData);
+        const medicine = req.body
+        console.log(medicine)
+        // const { title, type, inventory, price, storeName, itemCode } = req.body;
+        // const createData = {
+        //     title,
+        //     type,
+        //     inventory,
+        //     price,
+        //     storeName,
+        //     itemCode,
+        // }
+        const newMedicine = await medicineRepository.createMedicine(medicine);
         return res.status(201).json(newMedicine)
     } catch (error) {
         console.log('error', error)

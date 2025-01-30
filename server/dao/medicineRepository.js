@@ -51,9 +51,14 @@ const getPaginatedMedicine = async (searchTerm, limit, offset) => {
         } : {}
         // console.log(searchFilter)
         const { count, rows } = await db.medicines.findAndCountAll({ where: searchFilter, limit, offset });
+        // console.log("count :", count); // total data 11
+        // console.log("offset :", offset)
+        // console.log("limit :", limit);
         return {
-            totalItems: count,
-            totalPages: Math.ceil(count / limit),
+            totalItems: count, // calculate the total items 11
+            totalPages: Math.ceil(count / limit), // calculate the total totalpage 3
+            currentPage: Math.floor(offset / limit) + 1,// calculate the currentPage 
+            // currnetPage: page,
             data: rows,
         };
 
@@ -65,7 +70,7 @@ const getPaginatedMedicine = async (searchTerm, limit, offset) => {
 // create medicine 
 const createMedicine = async (createData) => {
     try {
-        const newMedicine = await db.medicines.create(createData)
+        const newMedicine = await db.medicines.bulkCreate(createData)
         return newMedicine;
     } catch (error) {
         console.error('Error in repository while creating medicine:', error.message);

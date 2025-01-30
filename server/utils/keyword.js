@@ -6,6 +6,7 @@ const keyword = {
     invalidCred: "Invalid credential",
     isverify: "email and password dose not exsit!",
     fields: "Fields must not be empty",
+    message: "done!"
   },
   error: 'sothing went wrong !'
 }

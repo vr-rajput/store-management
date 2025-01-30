@@ -72,8 +72,10 @@ const loginUser = async (req, res) => {
 const getAllUser = async (req, res) => {
   try {
     const getuser = await userRepository.getUser();
-    res.status(200).json({ meg: "ok ", getuser })
+    // res.status(200).json(getuser)
+    return successResponse(res, keyword?.auth?.message, 200, getuser)
   } catch (error) {
+    console.log(error)
     res.status(200).json({ error: "server Error" })
   }
 }
@@ -82,7 +84,8 @@ const getAllUser = async (req, res) => {
 const getUserProfile = async (req, res) => {
   try {
     const profile = req.user;
-    res.status(200).json(profile);
+    const userData = await userRepository.getProfile(profile);
+    return successResponse(res, keyword?.auth?.message, 200, userData)
   } catch (error) {
     return errorResponse(res, error.message || keyword?.error, error.statusCode || 401)
   }

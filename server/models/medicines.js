@@ -26,12 +26,15 @@ module.exports = (sequelize) => {
             type: DataTypes.FLOAT
         },
         mfr: {
-            type: DataTypes.DATE
+            type: DataTypes.DATE,
         },
         exp: {
-            type: DataTypes.DATE
+            type: DataTypes.DATE,
+        },
+        itemCode: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
         }
-
 
     })
 

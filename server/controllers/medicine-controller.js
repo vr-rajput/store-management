@@ -4,53 +4,46 @@ const medicineRepository = require('../dao/medicineRepository');
 
 const getMedicine = async (req, res) => {
     try {
-        console.log("get")
         const getMedicine = await medicineRepository.getAllMedicine(req.query.storeName);
-        return res.status(200).json(getMedicine);
+        console.log(getMedicine)
+        return res.status(200).json({ msg: "successfully get data ", getMedicine });
     } catch (error) {
         console.error('Error fetching medicines:', error);
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 }
+
+// Costum paginetion
 const getAllMedicinePaginated = async (req, res) => {
     try {
-        const { page, size } = req.query;
-        const limit = parseInt(size, 10);
-        const offset = (parseInt(page, 10) - 1) * limit;
+        const { searchTerm, page, size } = req.query;
+        const limit = parseInt(size, 10); // calculate the items of data  5
+        const offset = (parseInt(page, 10) - 1) * limit; // calculate the page
 
         // fetch paginated data 
-        const data = await medicineRepository.getPaginatedMedicine({ limit, offset });
-        console.log(data.count)
-        console.log(data.rows)
+        const data = await medicineRepository.getPaginatedMedicine(searchTerm, limit, offset, page);
+        res.status(201).json({ data })
+        console.log(data)
     } catch (error) {
-        console.log(error)
+        console.log(error.message)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 const medicineCreate = async (req, res) => {
     try {
         console.log("vcreeate")
-        const { title, type, inventory, price, storeName } = req.body;
-        const createData = {
-            title,
-            type,
-            inventory,
-            price,
-            storeName
-        }
-        console.log(createData)
-        const newMedicine = await medicineRepository.createMedicine(createData);
+        const medicine = req.body
+        console.log(medicine)
+        // const { title, type, inventory, price, storeName, itemCode } = req.body;
+        // const createData = {
+        //     title,
+        //     type,
+        //     inventory,
+        //     price,
+        //     storeName,
+        //     itemCode,
+        // }
+        const newMedicine = await medicineRepository.createMedicine(medicine);
         return res.status(201).json(newMedicine)
     } catch (error) {
         console.log('error', error)
@@ -82,6 +75,10 @@ const deleteData = async (req, res) => {
         res.status(400).json({ msg: "cannot remeve data to database" })
     }
 }
+
+
+
+
 
 
 module.exports = {

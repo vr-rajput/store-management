@@ -5,7 +5,7 @@ const db = require('../config/database');
 // get profile user
 const getProfile = async (user) => {
   try {
-    return await db.admin.findOne(user, {
+    return await db.admin.findOne({
       where: {
         storeName: user.storeName,
         email: user.email

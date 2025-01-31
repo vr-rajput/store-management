@@ -6,9 +6,11 @@ const keyword = {
     invalidCred: "Invalid credential",
     isverify: "email and password dose not exsit!",
     fields: "Fields must not be empty",
-    message: "done!"
+    message: "done!",
+    payment: "Payment Successful !"
   },
-  error: 'sothing went wrong !'
+  error: 'sothing went wrong !',
+  fail: "payment Fail"
 }
 
 module.exports = { keyword }

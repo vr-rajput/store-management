@@ -5,7 +5,9 @@ const config = {
   db_host: process.env.DB_HOST,// localhost
   port: process.env.PORT, //3000
   dialect: process.env.dialect,
-  privetKey: process.env.privetKey
+  privetKey: process.env.privetKey,
+  keyId: process.env.keyid,
+  secretKey: process.env.secretKey
 
 };
 

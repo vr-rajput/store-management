@@ -1,33 +1,64 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { listMedicine } from "../services/productService"
+import { AdminContext } from "../context/AdminContext";
 
 export const useDataTable = ( ) => {
     //use state declare
     //#region 
     const [data, setData] = useState([]);
-    const [searchTerm, setSearchTerm ] = useState (""); 
+    const [searchTerm, setSearchTerm ] = useState ("");
+    const [page, setPage] = useState(0);//table pagination start from 0
+    const [limit, setLimit] = useState(5);
+    const [pagination, setPegination] = useState(null);
+
+      const { adminDetail } = useContext(AdminContext); 
+    
 
     //#endregion
     //fetch data from api
     useEffect(() => {
 
         fetchData();
-    }, [ setSearchTerm  ])
+    }, [ searchTerm, page  ])
 
 
     const fetchData = async () => {
+        console.log("adminDetail: <><>", adminDetail);
+        console.log("api", page);
+        console.log("searchTerm: ", searchTerm);
         const query = {
-            storeName: "demo"
+            storeName: adminDetail?.storeName,
+            // searchTerm: searchTerm,
+            page: page +1,//table pagination start from 0
+            limit: limit
         }
-        let response = await listMedicine(query); 
-        setData(response?.data); 
+        if ( searchTerm !== "") {
+            query.searchTerm = searchTerm;
+        }
+        const authToken = adminDetail?.authToken;
+        let response = await listMedicine(query, authToken); 
+        // console.log("response: ", response);
+        console.log("response?.data?.data: ", response?.data);
+        setData(response?.data?.data?.docs); 
+        setPegination({
+            totalDocs: response?.data?.data?.totalDocs,
+            totalPages: response?.data?.data?.totalPages,
+            currentPage: response?.data?.data?.currentPage,
+            hasNextPage: response?.data?.data?.hasNextPage,
+            hasPrevPage: response?.data?.data?.hasPrevPage
+        })
     }
 
  
     return {
         data, 
-        searchTerm,   
-        setSearchTerm
+        searchTerm,  
+        setSearchTerm,
+        page,
+        setPage,
+        setLimit,
+        limit,
+        pagination
     }
     
 }

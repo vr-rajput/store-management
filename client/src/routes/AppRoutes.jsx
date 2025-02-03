@@ -3,26 +3,31 @@ import RegisterPage from "../pages/RegisterPage";
 import LoginPage from "../pages/LoginPage";
 import Dashboard from "../pages/DashboardPage";
 import ProductPage from "../pages/ProductPage";
-import SalesPage from "../pages/SalesPage";
 import Layout from "../layouts/layout";
 import OrderPage from "../pages/OrderPage";
+import { CreateProductPage } from "../pages/CreateProductPage";
+import { AdminProvider } from "../context/AdminProvider";
+import { CreateOrderPage } from "../pages/CreateOrderPage";
 
 const AppRoutes = () => {
-    return (
-        <Router>
-            <Routes>
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                {/* <Route path="/dashboard" element={< Dashboard/>} /> */}
-                <Route path="/" element = { <Layout/> }>
-                    <Route path="dashboard" element={<Dashboard/>}/>
-                    <Route path="product" element={<ProductPage/>}/>
-                    <Route path="orders" element={<OrderPage/>}/>
-                </Route>
-                {/* Add other routes here */}
-            </Routes>
-        </Router>
-    );
+  return (
+    <Router>
+      <AdminProvider>
+        <Routes>
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          {/* <Route path="/dashboard" element={< Dashboard/>} /> */}
+          <Route path="/" element={<Layout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="product" element={<ProductPage />} />
+            <Route path="orders" element={<OrderPage />} />
+            <Route path="product/create" element={<CreateProductPage />} />
+            <Route path="order/create" element={<CreateOrderPage />} />
+          </Route>
+        </Routes>
+      </AdminProvider>
+    </Router>
+  );
 };
 
 export default AppRoutes;

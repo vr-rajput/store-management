@@ -14,11 +14,11 @@ import {
   Typography 
 } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
-export default function BasicTable({ headers = [], rows = [], query }) {
-  const { searchTerm, setSearchTerm } = query;  
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+export default function BasicTable({ headers = [], rows = [], query, addBtnUrl }) {
+  const { searchTerm, setSearchTerm, page, setPage, limit, setLimit, pagination } = query;  
+  const navigate = useNavigate(); 
   
     // Ensure rows is always an array before filtering
     const filteredRows = rows?.filter((row) =>
@@ -28,13 +28,13 @@ export default function BasicTable({ headers = [], rows = [], query }) {
     ) || [];
   
     // Handle pagination change
-    const handleChangePage = (event, newPage) => {
+    const handleChangePage = (event, newPage) => {  
       setPage(newPage);
     };
   
-    const handleChangeRowsPerPage = (event) => {
-      setRowsPerPage(parseInt(event.target.value, 10));
-      setPage(0);
+    const handleChangeRowsPerPage = (event) => { 
+      setLimit(parseInt(event.target.value, 10));
+      setPage(1);
     };
   
     // Handle Delete Action
@@ -46,6 +46,12 @@ export default function BasicTable({ headers = [], rows = [], query }) {
     const handleEdit = (id) => {
       console.log(`Editing record with ID: ${id}`);
     };
+
+    const handleChange = ( e ) =>{
+      // (e) => setSearchTerm(e.target.value)
+      setSearchTerm(e.target.value);
+      setPage(0)
+    }
   
     return (
       <Paper sx={{ padding: 2 }}>
@@ -55,11 +61,15 @@ export default function BasicTable({ headers = [], rows = [], query }) {
             variant="outlined"
             size="small"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleChange}
             sx={{ width: '300px' }}
           />
-          <Button variant="contained" color="primary">
-            Add New
+          <Button 
+            variant="contained" 
+            color="primary"
+            onClick={() => navigate(addBtnUrl)}
+            >
+              Add New
           </Button>
         </Box>
   
@@ -74,7 +84,7 @@ export default function BasicTable({ headers = [], rows = [], query }) {
             </TableHead>
             <TableBody>
             {filteredRows.length > 0 ? (
-              filteredRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+              filteredRows.map((row) => (
                 <TableRow key={row.id}>
                   {headers.map((headCell) => {
                     if (headCell.id === "action") {
@@ -106,11 +116,20 @@ export default function BasicTable({ headers = [], rows = [], query }) {
           </Table>
         </TableContainer>
   
-        <TablePagination
+        {/* <TablePagination
           component="div"
           count={filteredRows.length}
           page={page}
           rowsPerPage={rowsPerPage}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={11}//start from
+          rowsPerPageOptions={[5, 10, 25]}
+        /> */}
+        <TablePagination
+          component="div"
+          count={pagination?.totalDocs}
+          page={page}
+          rowsPerPage={limit}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
           rowsPerPageOptions={[5, 10, 25]}

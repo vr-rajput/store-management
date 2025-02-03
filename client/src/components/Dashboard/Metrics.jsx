@@ -1,22 +1,26 @@
-import "./Dashboard.css"
+import { Grid, Paper, Typography } from "@mui/material";
 
-const MetricCard = ({ title, value, icon }) => (
-  <div className="metric-card">
-    <div className="metric-icon">{icon}</div>
-    <h3>{title}</h3>
-    <p>{value}</p>
-  </div>
-);
+const analyticsData = [
+  { title: "Total Sales", value: "$15,250" },
+  { title: "Orders", value: "320" },
+  { title: "Customers", value: "250" },
+  { title: "Revenue", value: "$12,500" },
+];
 
-const Metrics = () => {
+export const Metrics = () => {
   return (
-    <div className="metrics-container">
-      <MetricCard title="Total Sales" value="$2000" icon="💰" />
-      <MetricCard title="Total Orders" value="150" icon="📦" />
-      <MetricCard title="Total Products" value="120" icon="📋" />
-      <MetricCard title="New Customers" value="25" icon="👥" />
-    </div>
+    <Grid container spacing={2}>
+      {analyticsData.map((item, index) => (
+        <Grid item xs={12} sm={6} md={3} key={index}>
+          <Paper sx={{ padding: 2, textAlign: "center" }}>
+            <Typography variant="h6">{item.title}</Typography>
+            <Typography variant="h5" fontWeight="bold">
+              {item.value}
+            </Typography>
+          </Paper>
+        </Grid>
+      ))}
+    </Grid>
   );
 };
-
-export default Metrics;
+ 

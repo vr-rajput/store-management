@@ -57,7 +57,7 @@ const Order = () => {
     
     const { data, searchTerm, setSearchTerm } = useDataTable();
   return (
-    <DataTable headers={headCells} rows={rows} query={{ searchTerm, setSearchTerm }} />
+    <DataTable headers={headCells} rows={rows} query={{ searchTerm, setSearchTerm }} addBtnUrl={"/order/create"} />
   )
 }
 

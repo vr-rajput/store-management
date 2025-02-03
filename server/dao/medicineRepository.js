@@ -38,7 +38,7 @@ const getAllMedicine = async (storeName) => {
     }
 }
 // get paginated Medicine 
-const getPaginatedMedicine = async (searchTerm, limit, offset) => {
+const getPaginatedMedicine = async (searchTerm, limit, offset, page) => {
     try {
         // console.log(searchTerm)
         // Build search filter
@@ -54,18 +54,27 @@ const getPaginatedMedicine = async (searchTerm, limit, offset) => {
         // console.log("count :", count); // total data 11
         // console.log("offset :", offset)
         // console.log("limit :", limit);
+        // return {
+        //     totalItems: count, // calculate the total items 11
+        //     totalPages: Math.ceil(count / limit), // calculate the total totalpage 3
+        //     currentPage: Math.floor(offset / limit) + 1,// calculate the currentPage 
+        //     // currnetPage: page,
+        //     hasNext: true,
+        //     hasPrev: false,
+        //     data: rows,
+        // };
         return {
-            totalItems: count, // calculate the total items 11
+            totalDocs: count, // calculate the total items 11
             totalPages: Math.ceil(count / limit), // calculate the total totalpage 3
             currentPage: Math.floor(offset / limit) + 1,// calculate the currentPage 
-            // currnetPage: page,
-            data: rows,
-        };
-
+            hasNextPage: (count - limit*page) > 0 ? true : false,
+            hasPrevPage: page > 1 ? true : false,
+            docs: rows,
+        }; 
     } catch (error) {
         console.log(error)
         throw error
-    }
+    } 
 }
 // create medicine 
 const createMedicine = async (createData) => {

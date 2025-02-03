@@ -1,7 +1,12 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import "../styles/layout.css";
+import { useContext } from "react";
+import { AdminContext } from "../context/AdminContext";
 
 const Layout = () => {
+
+  const { adminDetail } = useContext(AdminContext); 
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,7 +33,7 @@ const Layout = () => {
     <div className="layout">
       {/* Left Sidebar */}
       <aside className="sidebar">
-        <h2>Store Name</h2>
+        <h2>{adminDetail?.storeName || "Store-Name"}</h2>
         <ul>
           <li>
             <Link to="/dashboard">Dashboard</Link>
@@ -58,7 +63,7 @@ const Layout = () => {
               alt="Profile"
               className="profile-photo"
             />
-            <span className="user-name">John Doe</span>
+            <span className="user-name">{adminDetail?.userName}</span>
           </div>
         </header>
 

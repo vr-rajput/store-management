@@ -83,9 +83,11 @@ const getAllUser = async (req, res) => {
 // token jwt.verify
 const getUserProfile = async (req, res) => {
   try {
+    console.log("user");
     const profile = req.user;
+    console.log("profile: ", profile);
     const userData = await userRepository.getProfile(profile);
-    return successResponse(res, keyword?.auth?.message, 201, userData)
+    return successResponse(res, keyword?.auth?.message, 200, userData)
   } catch (error) {
     return errorResponse(res, error.message || keyword?.error, error.statusCode || 401)
   }

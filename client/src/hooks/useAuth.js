@@ -1,13 +1,18 @@
 import { useContext, useState } from "react";
-import { toast } from "react-toastify";
-import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify"; 
 import { keyWord } from "../utils/keyword";
+import { AdminContext } from "../context/AdminContext";
+import { useNavigate } from "react-router-dom";
 
-export const useAuth = () => useContext(AuthContext);
+// export const useAuth = () => useContext(AuthContext);
 
 export const useForm = (initialState, authApi, actionType) => {
+    const { setAdminDetail, adminDetail } = useContext(AdminContext);
+    console.log("adminDetail: auth hook", adminDetail);
+
     const [values, setValues] = useState(initialState);
     const [passwordMismatch, setPasswordMismatch] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -18,7 +23,7 @@ export const useForm = (initialState, authApi, actionType) => {
     }
     const handleSubmit = async (e) => {
         try {
-            e.preventDefault();
+            e.preventDefault(); 
             if (actionType === keyWord?.actionType?.register) {
 
                 if (values?.password !== values?.confirm_password) {
@@ -28,20 +33,35 @@ export const useForm = (initialState, authApi, actionType) => {
             }
             //api call
             const response = await authApi(values);
-            if (response?.status === 201 && actionType === keyWord?.actionType?.register) {
+            console.log("response?.data?: ", response?.data);
+            if (response?.data?.status === "Success" && actionType === keyWord?.actionType?.register) {
                 toast.success(response?.data?.message);
-            } else if (response?.status === 200 && actionType === keyWord?.actionType?.login) {
+                localStorage.setItem("authToken", response?.data?.data?.token);
+                navigate("/dashboard");
+                // setAdminDetail({
+                //     authToken: response?.data?.data?.token,
+                //     userName: "Vicky",
+                //     email: "vicky@gmail.com",
+                //     storeName: "test"
+                // })
+            } else if (response?.data?.status === "Success" && actionType === keyWord?.actionType?.login) {
                 toast.success(response?.data?.message);
-
+                localStorage.setItem("authToken", response?.data?.data?.token);
+                navigate("/dashboard");
+            } else if ( response?.data?.status === "Error" ) {
+                toast.success(response?.data?.message);
             } else {
                 toast.error(keyWord?.generalErrMsg);
             }
             setValues(initialState);
             // console.log("response: ", response);
-        } catch (error) {
-            console.log("error: ", error);
+        } catch (error) { 
             setValues(initialState);
-            toast.error(keyWord?.generalErrMsg);
+            if ( error?.response ) {
+                toast.error(error?.response?.data?.message);
+            } else {
+                toast.error(keyWord?.generalErrMsg);
+            }
         }
 
     }

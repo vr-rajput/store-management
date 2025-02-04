@@ -61,7 +61,7 @@ const loginUser = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    return successResponse(res, keyword?.auth?.login, 200, { token })
+    return successResponse(res, keyword?.auth?.login, 200, { token, user })
   } catch (error) {
     logger.error(`Error creating user: ${error.message}`);
     return errorResponse(res, error.message || keyword?.error, error.statusCode || 401)

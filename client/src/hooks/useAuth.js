@@ -37,16 +37,22 @@ export const useForm = (initialState, authApi, actionType) => {
             if (response?.data?.status === "Success" && actionType === keyWord?.actionType?.register) {
                 toast.success(response?.data?.message);
                 localStorage.setItem("authToken", response?.data?.data?.token);
+                setAdminDetail({
+                    authToken: response?.data?.data?.token,
+                    userName: response?.data?.data?.user?.userName,
+                    email: response?.data?.data?.user?.email,
+                    storeName: response?.data?.data?.user?.storeName
+                })
                 navigate("/dashboard");
-                // setAdminDetail({
-                //     authToken: response?.data?.data?.token,
-                //     userName: "Vicky",
-                //     email: "vicky@gmail.com",
-                //     storeName: "test"
-                // })
             } else if (response?.data?.status === "Success" && actionType === keyWord?.actionType?.login) {
                 toast.success(response?.data?.message);
                 localStorage.setItem("authToken", response?.data?.data?.token);
+                setAdminDetail({
+                    authToken: response?.data?.data?.token,
+                    userName: response?.data?.data?.user?.userName,
+                    email: response?.data?.data?.user?.email,
+                    storeName: response?.data?.data?.user?.storeName
+                })
                 navigate("/dashboard");
             } else if ( response?.data?.status === "Error" ) {
                 toast.success(response?.data?.message);

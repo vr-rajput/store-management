@@ -1,6 +1,5 @@
 import { Box, Container, Typography } from "@mui/material";
-import { Metrics } from "../components/Dashboard/Metrics";
-import BasicTable from "../components/DataTable";
+import { Metrics } from "../components/Dashboard/Metrics"; 
 import Order from "../components/Order/Order";
 // import BasicTable from "../components/DataTable1"
 

@@ -9,8 +9,7 @@ export const loginUser = async (userDetails) => {
     const response = await httpClient.post("/mgt/admin/login", userDetails);
     return response;
 }
-export const authUser = async (authToken) => {
-    console.log("authToken: ", authToken);
+export const authUser = async (authToken) => { 
     const response = await httpClient.get("/mgt/admin/", {
         headers: {
             Authorization: `Bearer ${authToken}`

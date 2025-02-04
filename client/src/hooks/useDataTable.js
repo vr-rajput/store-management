@@ -22,10 +22,7 @@ export const useDataTable = ( ) => {
     }, [ searchTerm, page  ])
 
 
-    const fetchData = async () => {
-        console.log("adminDetail: <><>", adminDetail);
-        console.log("api", page);
-        console.log("searchTerm: ", searchTerm);
+    const fetchData = async () => { 
         const query = {
             storeName: adminDetail?.storeName,
             // searchTerm: searchTerm,

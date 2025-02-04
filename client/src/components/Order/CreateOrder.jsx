@@ -18,124 +18,31 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import ClearIcon from "@mui/icons-material/Clear";
-import { checkout, checkoutVerify } from "../../services/checkoutService";
-
-// Dummy static JSON data
-const dummyData = [
-  { id: 1, title: "Wireless Mouse", price: 25.99, qty: 50 },
-  { id: 2, title: "Mechanical Keyboard", price: 79.99, qty: 30 },
-  { id: 3, title: "Gaming Monitor", price: 299.99, qty: 15 },
-  { id: 4, title: "Laptop Stand", price: 39.99, qty: 25 },
-  { id: 5, title: "USB-C Hub", price: 45.99, qty: 40 },
-  { id: 6, title: "Bluetooth Speaker", price: 59.99, qty: 20 },
-  { id: 7, title: "External Hard Drive", price: 89.99, qty: 10 },
-  { id: 8, title: "Smartphone Tripod", price: 22.99, qty: 35 },
-  { id: 9, title: "Wireless Earbuds", price: 49.99, qty: 60 },
-  { id: 10, title: "Portable Charger", price: 34.99, qty: 45 },
-];
+import { useCreateOrder } from "../../hooks/useCreateOrder";
 
 export const CreateOrder = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [results, setResults] = useState([]);
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  useEffect(() => {
-    if (searchTerm.trim() === "") {
-      setResults([]);
-      return;
-    }
-
-    // Filter dummy data based on search input
-    const filteredData = dummyData.filter((item) =>
-      item.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setResults(filteredData);
-  }, [searchTerm]);
-
-  // Handle checkbox selection
-  const handleToggle = (item) => {
-    setSelectedItems(
-      (prevSelected) =>
-        prevSelected.some((selectedItem) => selectedItem.id === item.id)
-          ? prevSelected.filter((selectedItem) => selectedItem.id !== item.id)
-          : [...prevSelected, { ...item, qty: 1, stock: item?.qty }] // Reset qty to 1 when adding
-    );
-  };
-
-  // Handle quantity increase/decrease
-  const handleQuantityChange = (item, increase) => {
-    setSelectedItems((prevSelected) =>
-      prevSelected.map((selectedItem) =>
-        selectedItem.id === item.id
-          ? {
-              ...selectedItem,
-              qty: increase
-                ? Math.min(selectedItem.qty + 1, item.stock) // Max to available stock
-                : Math.max(selectedItem.qty - 1, 1), // Min quantity of 1
-            }
-          : selectedItem
-      )
-    );
-  };
-
-  // Calculate total price
-  const calculateTotalPrice = () => {
-    return selectedItems
-      .reduce((total, item) => total + item.price * item.qty, 0)
-      .toFixed(2);
-  };
-
-  // Calculate total number of items
-  const calculateTotalItems = () => {
-    return selectedItems.reduce((total, item) => total + item.qty, 0);
-  };
-
-  // Handle item removal
-  const handleRemoveItem = (item) => {
-    setSelectedItems((prevSelected) =>
-      prevSelected.filter((selectedItem) => selectedItem.id !== item.id)
-    );
-  };
-
-  // Clear search input
-  const handleClearSearch = () => {
-    setSearchTerm("");
-    setResults([]);
-  };
-
-  // Handle checkout
-  const handleCheckout = async() => {
-    const resp = await checkout({amount: 200});
-    console.log("resp: ", resp);
-    const option =  {
-      key: "rzp_test_P0RYEAWm7FQJJi",
-      amount: 500,
-      currency: "INR",
-      name:"para",
-      description: "medicine",
-      order_id: resp?.data?.data?.id,
-      handler: async(response) => {
-        try {
-          console.log("response: ", response);
-          let res = await checkoutVerify(response);;
-          console.log("res: ", res);
-        } catch (error) {
-          console.log("error: ", error);
-          
-        }
-      },
-      theme: {
-        color: "red"
-      }
-    }
-    const  rzp1 = new window.Razorpay(option);
-    rzp1.open();
-  };
+  // Destructure required functions and state from custom hook
+  const {
+    searchTerm,
+    setSearchTerm,
+    results,
+    handleToggle,
+    selectedItems,
+    handleQuantityChange,
+    calculateTotalPrice,
+    calculateTotalItems,
+    handleRemoveItem,
+    handleClearSearch,
+    anchorEl,
+    setAnchorEl,
+    handleCheckout,
+    totalItems,
+    totalPrice,
+    handleScroll
+  } = useCreateOrder();
 
   return (
     <Box sx={{ margin: "20px auto", maxWidth: 800 }}>
@@ -147,7 +54,7 @@ export const CreateOrder = () => {
         value={searchTerm}
         onChange={(e) => {
           setSearchTerm(e.target.value);
-          setAnchorEl(e.currentTarget);
+          setAnchorEl(e.currentTarget); // Set anchor to the search input field
         }}
         InputProps={{
           endAdornment: searchTerm && (
@@ -160,12 +67,10 @@ export const CreateOrder = () => {
           mb: 1,
           backgroundColor: "#f5f5f5",
           borderRadius: 1,
-          "& .MuiInputBase-root": {
-            padding: "2px 3px",
-          },
         }}
       />
 
+      {/* Search Results Popper */}
       <Popper
         open={Boolean(results.length)}
         anchorEl={anchorEl}
@@ -174,22 +79,21 @@ export const CreateOrder = () => {
         <Paper
           elevation={3}
           sx={{
-            width: anchorEl ? anchorEl.clientWidth : "auto",
-            maxHeight: 200, // Set a max height for the dropdown
-            overflowY: "auto", // Enable vertical scrolling when content overflows
+            width: anchorEl?.clientWidth || "auto",
+            maxHeight: 200,
+            overflowY: "auto",
+            m: 1,
           }}
+          onScroll={handleScroll}
         >
           <List>
             {results.map((item) => (
               <ListItem key={item.id} button onClick={() => handleToggle(item)}>
                 <ListItemIcon>
                   <Checkbox
-                    edge="start"
                     checked={selectedItems.some(
                       (selectedItem) => selectedItem.id === item.id
                     )}
-                    tabIndex={-1}
-                    disableRipple
                   />
                 </ListItemIcon>
                 <ListItemText
@@ -208,11 +112,7 @@ export const CreateOrder = () => {
       </Typography>
       <TableContainer
         component={Paper}
-        sx={{
-          borderRadius: 2,
-          boxShadow: 3,
-          padding: "16px",
-        }}
+        sx={{ borderRadius: 2, boxShadow: 3, padding: "16px" }}
       >
         <Table>
           <TableHead>
@@ -234,7 +134,7 @@ export const CreateOrder = () => {
                     <Button
                       size="small"
                       onClick={() => handleQuantityChange(item, false)}
-                      disabled={item.qty === 1} // Disable when qty is 1 (can't go below 1)
+                      disabled={item.qty === 1}
                     >
                       <RemoveIcon />
                     </Button>
@@ -242,7 +142,7 @@ export const CreateOrder = () => {
                     <Button
                       size="small"
                       onClick={() => handleQuantityChange(item, true)}
-                      disabled={item?.qty >= item?.stock} // Disable if qty exceeds stock
+                      disabled={item.qty >= item.stock}
                     >
                       <AddIcon />
                     </Button>
@@ -266,7 +166,6 @@ export const CreateOrder = () => {
                 </TableCell>
               </TableRow>
             )}
-
             {/* Total Row */}
             {selectedItems.length > 0 && (
               <TableRow>
@@ -274,12 +173,11 @@ export const CreateOrder = () => {
                   <Typography variant="h6">Total</Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="h6">{calculateTotalItems()}</Typography>
+                  <Typography variant="h6">{totalItems}</Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography variant="h6">${calculateTotalPrice()}</Typography>
+                  <Typography variant="h6">${totalPrice}</Typography>
                 </TableCell>
-                <TableCell align="center" />
               </TableRow>
             )}
           </TableBody>
@@ -289,17 +187,11 @@ export const CreateOrder = () => {
       {/* Checkout Button */}
       <Box sx={{ mt: 2 }}>
         <Button
+          fullWidth
           variant="contained"
           color="primary"
           onClick={handleCheckout}
-          disabled={selectedItems.length === 0} 
-          sx={{
-            width: "100%",
-            backgroundColor: "#1976d2",
-            "&:hover": {
-              backgroundColor: "#1565c0",
-            },
-          }}
+          disabled={!selectedItems.length}
         >
           Checkout
         </Button>

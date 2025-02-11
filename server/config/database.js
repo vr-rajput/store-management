@@ -17,6 +17,8 @@ const db = { sequelize: sequelize }
 // all modle call 
 db.medicines = require('../models/medicines')(sequelize)
 db.admin = require('../models/admin')(sequelize)
+db.order = require('../models/order')(sequelize)
+db.productOrder = require('../models/productOrder')(sequelize)
 
 
 

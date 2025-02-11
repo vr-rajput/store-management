@@ -8,7 +8,7 @@ const getItemByCode = async (itemcode, qty) => {
         const medicine = await db.medicines.findAll({ where: { itemcode: itemcode } });
         if (medicine.length === 0) {
             console.log(`No medicine found for item code: ${itemcode}`);
-            return;
+            return { message: "Medicine not found", totalPrice: 0 };
         }
 
         // Log details and calculate total price
@@ -19,10 +19,10 @@ const getItemByCode = async (itemcode, qty) => {
             totalPrice += subtotal;
             console.log(`Subtotal for ${qty} units: ${subtotal}`);
         })
-        console.log(`Total Price: ${totalPrice}`);
+        // console.log(`Total Price: ${totalPrice}`);
 
     } catch (error) {
-        console.error('Error fetching item by code:', error.message);
+        //console.error('Error fetching item by code:', error.message);
         throw error;
     }
 }
@@ -38,7 +38,7 @@ const getAllMedicine = async (storeName) => {
     }
 }
 // get paginated Medicine 
-const getPaginatedMedicine = async (searchTerm, limit, offset) => {
+const getPaginatedMedicine = async (searchTerm, limit, offset, page) => {
     try {
         // console.log(searchTerm)
         // Build search filter
@@ -51,15 +51,18 @@ const getPaginatedMedicine = async (searchTerm, limit, offset) => {
         } : {}
         // console.log(searchFilter)
         const { count, rows } = await db.medicines.findAndCountAll({ where: searchFilter, limit, offset });
-        // console.log("count :", count); // total data 11
-        // console.log("offset :", offset)
-        // console.log("limit :", limit);
+
+        const totalPages = Math.ceil(count / limit); // calculate the currentPage 
+        const currentPage = page; // Calculate the currentpage
         return {
-            totalItems: count, // calculate the total items 11
-            totalPages: Math.ceil(count / limit), // calculate the total totalpage 3
-            currentPage: Math.floor(offset / limit) + 1,// calculate the currentPage 
-            // currnetPage: page,
+            totalPages: count,
+            currentPage,
             data: rows,
+            netxPage: currentPage < totalPages ? currentPage + 1 : null, // retrun Integer
+            previousPage: currentPage > 1 ? currentPage - 1 : null, // retrun Integer
+
+            // netxPage: (count - limit * page) > 0 ? true : false, // return boolean
+            // previousPage: page > 1 ? true : false, // return boolean
         };
 
     } catch (error) {

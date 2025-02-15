@@ -1,4 +1,5 @@
 const Razorpay = require('razorpay');
+// const config = require('../config/index')
 const config = require('../config/index')
 
 const razorpay = new Razorpay({

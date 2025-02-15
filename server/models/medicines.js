@@ -25,15 +25,16 @@ module.exports = (sequelize) => {
         price: {
             type: DataTypes.FLOAT
         },
-        mfr: {
+        mfgDate: {
             type: DataTypes.DATE,
         },
-        exp: {
+        expDate: {
             type: DataTypes.DATE,
         },
         itemCode: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: false,
+            unique: true,
         }
 
     })

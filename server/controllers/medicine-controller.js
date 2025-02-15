@@ -35,7 +35,6 @@ const getAllMedicinePaginated = async (req, res) => {
 
 const medicineCreate = async (req, res) => {
     try {
-        console.log("vcreeate")
         const medicine = req.body
         console.log(medicine)
         // const { title, type, inventory, price, storeName, itemCode } = req.body;
@@ -80,11 +79,6 @@ const deleteData = async (req, res) => {
         res.status(400).json({ msg: "cannot remeve data to database" })
     }
 }
-
-
-
-
-
 
 module.exports = {
     getMedicine,

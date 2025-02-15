@@ -8,7 +8,7 @@ const getItemByCode = async (itemcode, qty) => {
         const medicine = await db.medicines.findAll({ where: { itemcode: itemcode } });
         if (medicine.length === 0) {
             console.log(`No medicine found for item code: ${itemcode}`);
-            return;
+            return { message: "Medicine not found", totalPrice: 0 };
         }
 
         // Log details and calculate total price
@@ -19,10 +19,10 @@ const getItemByCode = async (itemcode, qty) => {
             totalPrice += subtotal;
             console.log(`Subtotal for ${qty} units: ${subtotal}`);
         })
-        console.log(`Total Price: ${totalPrice}`);
+        // console.log(`Total Price: ${totalPrice}`);
 
     } catch (error) {
-        console.error('Error fetching item by code:', error.message);
+        //console.error('Error fetching item by code:', error.message);
         throw error;
     }
 }

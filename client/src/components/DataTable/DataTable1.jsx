@@ -127,7 +127,7 @@ export default function BasicTable({ headers = [], rows = [], query, addBtnUrl }
         /> */}
         <TablePagination
           component="div"
-          count={pagination?.totalDocs}
+          count={pagination?.totalDocs || 0}
           page={page}
           rowsPerPage={limit}
           onPageChange={handleChangePage}

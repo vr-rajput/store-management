@@ -1,7 +1,3 @@
-[build]
-  command = "npm run build"
-  publish = "build" # For Create React App
-  # publish = "dist" # For Vite
 
 [[headers]]
   for = "/*"

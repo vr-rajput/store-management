@@ -1,27 +1,23 @@
+import Header from './Components/Header';
+import "bootstrap/dist/css/bootstrap.min.css"
 import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Dashboard from './Components/Header/Dashboard';
-import Header from './Components/Header/Header';
-import Slidebar from './Components/SlideBar/Slidebar';
+import Footer from './Components/Footer';
+import Sidebar from './Components/Sidebar';
+import { Login } from './pages/Login';
+import { AppRoutes } from './routes/AppRoutes';
+
 
 function App() {
   return (
-    <BrowserRouter>
-      <Header />
-      <div className='main d-flex'>
-        <div className='sidebarWrapper'>
-          <Slidebar />
-        </div>
-
-        <div className='content'>
-          <Routes>
-            <Route path="/a" element={<Dashboard />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Routes>
-        </div>
+    <div className='app-container'>
+      <Sidebar></Sidebar>
+      <div className='app-content'>
+        <Header></Header>
+        <AppRoutes></AppRoutes>
+        <Footer></Footer>
       </div>
-    </BrowserRouter >
-  )
+    </div>
+  );
 }
 
 

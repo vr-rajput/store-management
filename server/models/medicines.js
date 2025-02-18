@@ -1,4 +1,4 @@
-const { DataTypes, ForeignKeyConstraintError } = require('sequelize');
+const { DataTypes, htmlForeignKeyConstraintError } = require('sequelize');
 const AdminModel = require('./admin');
 
 
@@ -29,8 +29,8 @@ module.exports = (sequelize) => {
 
     })
 
-    Admin.hasMany(medicine, { foreignKey: 'storeName', as: 'medicines' });
-    medicine.belongsTo(Admin, { foreignKey: 'storeName', as: 'admin' });
+    Admin.hasMany(medicine, { htmlForeignKey: 'storeName', as: 'medicines' });
+    medicine.belongsTo(Admin, { htmlForeignKey: 'storeName', as: 'admin' });
     return medicine;
 }
 

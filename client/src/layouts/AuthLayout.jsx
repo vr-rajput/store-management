@@ -1,11 +1,14 @@
 import React from "react"
-import { useNavigate } from "react-router-dom"
+import { Outlet } from "react-router-dom"
+import { Header } from '../Components/Header'
+// import { Outlet } from 'react-router-dom';
 
-export const AuthLayout = ({ children }) => {
+
+export const AuthLayout = () => {
 
   return (
     <div>
-      {children}
+      <Header />
     </div>
   )
 }

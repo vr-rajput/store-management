@@ -1,13 +1,18 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { Login } from '../pages/Login'
+import { Login } from '../pages/Login';
+import { Register } from '../pages/register';
+import { AuthLayout } from '../layouts/AuthLayout';
 
-export const AppRoutes = () => {
+export const AppRoutes = ({ handleLoginClick }) => {
   return (
-    <Router>
+
+    <AuthLayout>
       <Routes>
-        <Route path="/login" element={<Login />}></Route>
+        <Route path="/" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
       </Routes>
-    </Router>
+    </AuthLayout>
+
   )
 }

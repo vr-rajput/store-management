@@ -50,7 +50,12 @@ export const useCreateOrder = () => {
 
         }
     }
-
+    
+    const handleClick = (e) => {
+        console.log("MMMMMMMMMMMMMMMMMMMM", e.currentTarget);
+        setAnchorEl(e.currentTarget);
+        fetchProdcuts();
+    }
       // Handle scrolling to bottom of the dropdown
   const handleScroll = (event) => {
     console.log("hanle scroll");
@@ -183,6 +188,7 @@ export const useCreateOrder = () => {
         handleCheckout,
         totalItems,
         totalPrice,
-        handleScroll
+        handleScroll,
+        handleClick
     }
 }

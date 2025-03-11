@@ -41,7 +41,8 @@ export const CreateOrder = () => {
     handleCheckout,
     totalItems,
     totalPrice,
-    handleScroll
+    handleScroll,
+    handleClick
   } = useCreateOrder();
 
   return (
@@ -52,6 +53,7 @@ export const CreateOrder = () => {
         variant="outlined"
         fullWidth
         value={searchTerm}
+        onClick={(e) => handleClick(e)}
         onChange={(e) => {
           setSearchTerm(e.target.value);
           setAnchorEl(e.currentTarget); // Set anchor to the search input field

@@ -1,13 +1,13 @@
 import React from "react";
-import { AuthProvider } from "./context/AuthContext";
+// import { AuthProvider } from "./context/AuthContext";
 import AppRoutes from "./routes/AppRoutes";
 import "./styles/globals.css";
 
 const App = () => {
     return (
-        <AuthProvider>
+        // <AuthProvider>
             <AppRoutes />
-        </AuthProvider>
+        // </AuthProvider>
     );
 };
 

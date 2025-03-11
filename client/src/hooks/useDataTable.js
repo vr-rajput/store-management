@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { listMedicine } from "../services/productService"
 import { AdminContext } from "../context/AdminContext";
+import { LoaderContext } from "../context/LoaderContext";
 
 export const useDataTable = ( ) => {
     //use state declare
@@ -12,6 +13,8 @@ export const useDataTable = ( ) => {
     const [pagination, setPegination] = useState(null);
 
       const { adminDetail } = useContext(AdminContext); 
+      console.log("adminDetail: ", adminDetail);
+      const { loading, setLoading } = useContext(LoaderContext); 
     
 
     //#endregion
@@ -23,6 +26,8 @@ export const useDataTable = ( ) => {
 
 
     const fetchData = async () => { 
+        console.log("loading", loading);
+        setLoading(true);
         const query = {
             storeName: adminDetail?.storeName,
             // searchTerm: searchTerm,
@@ -44,6 +49,7 @@ export const useDataTable = ( ) => {
             hasNextPage: response?.data?.data?.hasNextPage,
             hasPrevPage: response?.data?.data?.hasPrevPage
         })
+        setLoading(false);
     }
 
  
@@ -55,7 +61,8 @@ export const useDataTable = ( ) => {
         setPage,
         setLimit,
         limit,
-        pagination
+        pagination,
+        loading
     }
     
 }

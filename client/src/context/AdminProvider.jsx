@@ -1,38 +1,43 @@
 import { useEffect, useState } from "react"
 import { AdminContext } from "./AdminContext"
 import { authUser } from "../services/authService";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const AdminProvider = ( {children} ) => {
-    console.log("provider");
-    const [ adminDetail, setAdminDetail ] = useState(null);
+    const [adminDetail, setAdminDetail] = useState(null);
     const navigate = useNavigate();
-    const fetchAadminDetail = async ( ) => {
+    const location = useLocation();  // ✅ Get current route
+
+    const fetchAdminDetail = async () => {
         try {
-            console.log("called");
             let authToken = localStorage.getItem("authToken");
-            if ( !authToken ) {
-                navigate("/login");
+
+            if (!authToken) {
+                // ✅ Prevent redirect loop if already on login/register
+                if (location.pathname !== "/login" && location.pathname !== "/register") {
+                    navigate("/login");
+                }
+                return;
             }
+
             let response = await authUser(authToken);
-            console.log("response: ", response);
-            console.log("response: ", response?.data?.data?.userName);
-            setAdminDetail( {
-                    authToken: authToken,
-                    userName: response?.data?.data?.userName,
-                    email: response?.data?.data?.email,
-                    storeName: response?.data?.data?.storeName
-                } );
-        } catch (error) { 
-            console.log("error: ", error);
-            localStorage.removeItem("authToken");       
-            navigate("/login")
+            setAdminDetail({
+                authToken: authToken,
+                userName: response.data.data.userName,
+                email: response.data.data.email,
+                storeName: response.data.data.storeName,
+            });
+        } catch (error) {
+            console.error("Auth error:", error);
+            localStorage.removeItem("authToken");
+            navigate("/login");
         }
-    }
+    };
     useEffect(() => {
-        fetchAadminDetail();
- 
-    }, [])
+
+        fetchAdminDetail();
+    }, [location.pathname]);  // ✅ Runs when the URL changes
+
     
     return (
         <AdminContext.Provider value={{ adminDetail, setAdminDetail}}>

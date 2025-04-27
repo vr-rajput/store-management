@@ -41,11 +41,11 @@ jobs:
 
       - name: Deploy to Render
         env: 
-          RENDER_API-KEY: ${{ secrets.RENDER_DEPLOY_HOOK }}
+          RENDER_API_KEY: ${{ secrets.RENDER_DEPLOY_HOOK }}
         run: |
           curl -X POST \
           -H "Authorization: Bearer $RENDER_API_KEY" \
           -H "Content-Type: application/json" \
-          -d '{"serviceId": "srv-d0713n9r0fns7383bapg"}'
+          -d '{"serviceId": "srv-d0713n9r0fns7383bapg"}' \
           https://api.render.com/v1/services/srv-d0713n9r0fns7383bapg/deploys
   

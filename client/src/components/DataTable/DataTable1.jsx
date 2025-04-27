@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { 
   Paper, 
   Table, 
@@ -15,9 +14,10 @@ import {
 } from '@mui/material';
 import { Edit, Delete } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import Loader from '../Loader/Loader';
 
 export default function BasicTable({ headers = [], rows = [], query, addBtnUrl }) {
-  const { searchTerm, setSearchTerm, page, setPage, limit, setLimit, pagination } = query;  
+  const { searchTerm, setSearchTerm, page, setPage, limit, setLimit, pagination, loading } = query;  
   const navigate = useNavigate(); 
   
     // Ensure rows is always an array before filtering
@@ -54,6 +54,7 @@ export default function BasicTable({ headers = [], rows = [], query, addBtnUrl }
     }
   
     return (
+      // loading ? <Loader/> :
       <Paper sx={{ padding: 2 }}>
         <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
           <TextField
@@ -83,7 +84,8 @@ export default function BasicTable({ headers = [], rows = [], query, addBtnUrl }
               </TableRow>
             </TableHead>
             <TableBody>
-            {filteredRows.length > 0 ? (
+           { loading ? <Loader/> :
+            filteredRows.length > 0 ? (
               filteredRows.map((row) => (
                 <TableRow key={row.id}>
                   {headers.map((headCell) => {
@@ -111,7 +113,7 @@ export default function BasicTable({ headers = [], rows = [], query, addBtnUrl }
                   </Typography>
                 </TableCell>
               </TableRow>
-            )}
+            ) }
             </TableBody>
           </Table>
         </TableContainer>

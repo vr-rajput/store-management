@@ -1,4 +1,6 @@
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import "../styles/layout.css";
 import { useContext } from "react";
 import { AdminContext } from "../context/AdminContext";
@@ -58,12 +60,13 @@ const Layout = () => {
             <h3>{getPageTitle()}</h3>
           </div>
           <div className="navbar-right">
-            <img
+            {/* <img
               src="https://via.placeholder.com/40"
               alt="Profile"
               className="profile-photo"
-            />
-            <span className="user-name">{adminDetail?.userName}</span>
+            /> */}
+            <AccountCircleIcon sx={{ fontSize: 40, color: "black" }} />
+            <span className="user-name" sx={{color: "black"}}>{adminDetail?.userName}</span>
           </div>
         </header>
 

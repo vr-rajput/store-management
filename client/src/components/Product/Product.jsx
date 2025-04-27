@@ -76,11 +76,11 @@ const medicine = [
 
 export default function BasicTable() {
 
-  const { data, searchTerm, setSearchTerm, page, setPage, limit, setLimit, pagination } = useDataTable();
+  const { data, searchTerm, setSearchTerm, page, setPage, limit, setLimit, pagination, loading } = useDataTable();
   // console.log("data: parent ", data); 
 
   return (
-    <DataTable headers={headCells} rows={data} query={{ searchTerm, setSearchTerm, page, setPage, limit, setLimit, pagination }} addBtnUrl={"/product/create"}  />
+    <DataTable headers={headCells} rows={data} query={{ searchTerm, setSearchTerm, page, setPage, limit, setLimit, pagination, loading }} addBtnUrl={"/product/create"}  />
     /**
     <Paper sx={{ padding: 2 }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>

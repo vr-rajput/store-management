@@ -1,0 +1,51 @@
+name: CI/CD Pipeline
+
+on: 
+  push:
+    branches:
+      - react-phase-2
+  pull_request:
+    branches:
+      - react-phase-2
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest     
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps: 
+      - name: Checkout code 
+        uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies (client)
+        run: |
+          cd client
+          npm install
+
+      - name: Install dependencies (server)
+        run: |
+          cd server
+          npm install
+
+      - name: Build client
+        run: |
+          cd client
+          npm run build
+
+      - name: Deploy to Render
+        env: 
+          RENDER_API-KEY: ${{ secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          curl -X POST \
+          -H "Authorization: Bearer $RENDER_API_KEY" \
+          -H "Content-Type: application/json" \
+          -d '{"serviceId": "srv-d0713n9r0fns7383bapg"}'
+          https://api.render.com/v1/services/srv-d0713n9r0fns7383bapg/deploys
+  
